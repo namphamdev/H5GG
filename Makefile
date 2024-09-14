@@ -14,9 +14,10 @@ FINALPACKAGE=1
 
 include $(THEOS)/makefiles/common.mk
 
-
+CONFIG += c++11
 TWEAK_NAME = H5GG
-
+QMAKE_CXXFLAGS += -std=c++11
+H5GG_CXXFLAGS += -std=c++11
 H5GG_FILES = Tweak.mm ldid-master/ldid.cpp ldid-master/lookup2.c
 H5GG_CFLAGS = -fobjc-arc -fvisibility=hidden 
 H5GG_CCFLAGS = -fobjc-arc -fvisibility=hidden -std=c++11 -stdlib=libc++
