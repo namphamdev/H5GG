@@ -1,5 +1,7 @@
 ARCHS = arm64
 
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+
 TARGET = iphone:13.7:11.4
 
 THEOS_DEVICE_IP = iphoneX.local
