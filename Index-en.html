@@ -359,7 +359,10 @@ document.addEventListener("DOMContentLoaded", function(){
     
     //激活webkit的button:active
     document.body.addEventListener('touchstart', function () {});
-    
+    const previousUrl = localStorage.getItem('netjsurl');
+    if (previousUrl) {
+        document.getElementById('netjsurl').value = previousUrl;
+    }
     //绑定菜单点击切换子页面
     $("div.menubox").unbind('click').click(function(){
         $("div.menubox").removeClass("current");
