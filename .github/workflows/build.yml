@@ -7,27 +7,27 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
-          submodules: true
+          submodules: recursive
 
       - name: Check cache
+        id: verify-cache
         run: |
-          echo upstream_heads=`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1` >> $GITHUB_ENV
+          echo "::set-output name=heads::`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/xybp888/iOS-SDKs | head -n 1 | cut -f 1`"
 
       - name: Use cache
         id: cache
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/theos
-          key: ${{ runner.os }}-${{ env.upstream_heads }}
+          key: ${{ runner.os }}-${{ steps.verify-cache.outputs.heads }}
 
       - name: Prepare Theos
-        # Don't use @main in production, this repo is specifically for testing it.
-        uses: Randomblock1/theos-action@main
+        uses: Randomblock1/theos-action@v1
 
       - name: Build package
         run: |
