@@ -1,6 +1,6 @@
 ARCHS = arm64
 
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+MACOSX_DEPLOYMENT_TARGET = 10.6
 
 TARGET = iphone:13.7:11.4
 
@@ -19,7 +19,8 @@ TWEAK_NAME = H5GG
 
 H5GG_FILES = Tweak.mm ldid-master/ldid.cpp ldid-master/lookup2.c
 H5GG_CFLAGS = -fobjc-arc -fvisibility=hidden 
-H5GG_CCFLAGS = -fobjc-arc -fvisibility=hidden -std=c++11
+H5GG_CCFLAGS = -fobjc-arc -fvisibility=hidden -std=c++11 -stdlib=libstdc++
+H5GG_CXX_FLAGS = -std=c++11
 H5GG_LOGOS_DEFAULT_GENERATOR = internal
 
 include $(THEOS_MAKE_PATH)/tweak.mk
