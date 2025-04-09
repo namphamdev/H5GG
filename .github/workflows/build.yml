@@ -1,41 +1,54 @@
-name: CI
+name: Theos CI
 
-on: [push]
+on:
+  push:
+    #tags:
+    #  - 'v*'
+
+    #branches: [ master ]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest]
+    runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
 
-      - name: Check cache
-        id: verify-cache
-        run: |
-          echo "::set-output name=heads::`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/xybp888/iOS-SDKs | head -n 1 | cut -f 1`"
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
-      - name: Use cache
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/theos
-          key: ${{ runner.os }}-${{ steps.verify-cache.outputs.heads }}
+    - name: Check cache
+      id: verify-cache
+      run: |
+        echo "::set-output name=heads::`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/xybp888/iOS-SDKs | head -n 1 | cut -f 1`"
 
-      - name: Prepare Theos
-        uses: Randomblock1/theos-action@v1
+    - name: Use cache
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.workspace }}/theos
+        key: ${{ runner.os }}-${{ steps.verify-cache.outputs.heads }}
 
-      - name: Build package
-        run: |
-          rm -f packages/*
-          make package FINALPACKAGE=1
+    - name: Prepare Theos
+      uses: Randomblock1/theos-action@v1
 
-      - name: Upload package
-        uses: actions/upload-artifact@v3
-        with:
-          name: "Package built by ${{ matrix.os }}"
-          path: ${{ github.workspace }}/packages/*.deb
+    - name: Build package
+      run: |
+        rm -f packages/*
+        make package FINALPACKAGE=1
+
+    - name: Make framework
+      run: |
+        ./framework.sh
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: com.npdev.super_1.0.0_iphoneos-arm.deb
+        path: ./packages
+
+    - name: Upload framework
+      uses: actions/upload-artifact@v4
+      with:
+        name: npsuper.framework.zip
+        path: ./packages/out
