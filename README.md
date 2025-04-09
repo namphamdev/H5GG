@@ -1,4 +1,4 @@
-# H5GG
+# H5GG - Updated
 
 **Discuss in [Discord](https://discord.gg/FAs4MH7HMc) or [iosgods.com](https://iosgods.com/forum/595-h5gg-igamegod/)**
 

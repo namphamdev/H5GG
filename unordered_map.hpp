@@ -24,7 +24,7 @@
 #include <unordered_map>
 #elif defined(__INTEL_COMPILER)
 #include <ext/hash_map>
-#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 3)
+#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 3) || defined __APPLE__
 #include <tr1/unordered_map>
 #elif defined(__GNUC__) && __GNUC__ >= 3
 #include <ext/hash_map>
